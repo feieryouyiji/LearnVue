@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script src="./vue.js"></script>
+<body>
+    <div id="box">
+        <aaa :msg='msg1'></aaa>
+    </div>
+</body>
+</html>
+<template id="tm"> 
+    <ul>
+        <p>{{msg}}</p>
+        <li v-for='item in arr'>{{item}}</li>
+        <bbb></bbb>
+    </ul>
+</template >
+<script>
+    // var A = Vue.extend()
+    // Vue.component('aaa',);
+    new Vue({
+        el:'#box',
+        data: {
+            'msg1':'我是爷爷'
+        },
+        components: {
+            aaa: {
+                template: "#tm",
+                props:{
+                    // msg: String
+                },
+                data: function(){
+                    return {
+                        msg2:'我是爸爸',
+                        arr:["苹果","香蕉","橘子"]
+                    }
+                },
+                components:{
+                    bbb: {
+                        data(){
+                            return {
+                                msg3: '我是儿子'
+                            }
+                        },
+                        template: '<h3>{{msg3}}</h3>'
+                    }
+                }
+           }
+           
+        }
+    })
+
+</script>
