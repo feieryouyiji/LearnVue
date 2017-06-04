@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script src = "./vue.js"></script>
+<body>
+    <div id="box">
+        <button @click="send">发射</button>
+        <coma></coma>    
+    </div>
+</body>
+</html>
+<template id="A">
+    <div>
+            <p>我是A组件</p>
+            <button @click='ac'>接收</button>
+            <p>{{rootMsg}}</p>  
+    </div>
+</template>
+<script>
+    var Event = new Vue();
+    new Vue({
+        el:'#box',
+        data:{
+            a: "根组件"
+        },
+        methods:{
+            send(){
+                
+            }
+        },
+        components:{
+            coma: {
+                data(){
+                    return {
+                        msg: '我是A组件数据',
+                        rootMsg:''
+                    }
+                },
+                methods:{
+                    ac(){
+                        Event.$on('a-msg',function (data) {
+                            /* body... */
+                            alert(data);
+                            this.rootMsg = data;
+                        }.bind(this))
+                    }
+                },
+                mounted(){
+
+                    Event.$on('a-msg',function (data) {
+                            /* body... */
+                            alert('我接收到了'+data);
+                            this.rootMsg = data;
+                        }.bind(this))
+                },
+                template:'#A'
+            },
+            comB: {
+                template: '#B'
+            }
+        },
+        mounted(){
+           Event.$emit('a-msg',this.a);
+             
+        }
+    })
+</script>
